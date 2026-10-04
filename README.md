@@ -68,9 +68,27 @@ If the institute blocks authorization, contact its IT team. [Google's authorizat
 
 Add **one** hourly trigger. A timetable change usually appears after the next hourly run, not immediately.
 
-## See classes on your phone
+## Put the class widget on your phone
 
-**Google Calendar app** → add your **institute account** → make its calendar visible → add a calendar widget if you want one. Widget colours and text may vary by phone.
+First, open the **Google Calendar app** on your phone → tap your **profile photo** (top right) → **Add another account** → sign in with the same **institute account** you used for the script. Then tap **☰ Menu** (top left) → make sure the institute account's calendar is checked. Open a future class in the app before adding the widget. [Google's account steps](https://support.google.com/calendar/answer/15619834?hl=en)
+
+### Android → add the schedule widget
+
+1. Touch and hold an empty spot on the **Home screen** → tap **Widgets**.
+2. Find **Google Calendar** → touch and hold **Calendar schedule** → drag it onto the Home screen. Choose **Calendar month view** instead if you prefer a month grid.
+3. If you want to see more classes at once, touch and hold the new widget → drag its resize handles to make it taller.
+
+[Google's Android widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DAndroid&hl=en) notes that the menu can vary slightly by phone.
+
+### iPhone → add the Google Calendar widget
+
+1. Install and open the **Google Calendar app** once. In the app, check that your institute calendar and its classes are visible.
+2. Touch and hold an empty spot on the **Home Screen** → tap **Edit** → **Add Widget** (or the **+** button, depending on iOS).
+3. Search for **Google Calendar** → choose a widget size → tap **Add Widget** → **Done**.
+
+If Google Calendar is missing from the widget list, open the app once and try again. [Google's iPhone widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DiOS&hl=en)
+
+The widget shows events from the calendars enabled in the Google Calendar app. Its colours and number of visible classes may vary by phone and widget size.
 
 ## If something goes wrong
 
