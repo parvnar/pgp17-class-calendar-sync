@@ -1,0 +1,7 @@
+# Local settings and private timetable downloads
+.env
+.env.*
+.clasp.json
+*.xlsx
+*.xls
+node_modules/
