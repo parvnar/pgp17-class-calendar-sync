@@ -1,78 +1,83 @@
-# PGP17 Class Calendar Sync
+# PGP17 class calendar sync
 
-An Apps Script that keeps one PGP17 Term II pre-midterm section's classes in Google Calendar. It reads the institute timetable and checks for changes every hour, so the short class names stay useful in a phone calendar widget.
+Put your **Pre Mid Term 2 classes** in Google Calendar. The calendar checks the institute timetable about once an hour and updates your future classes when the sheet changes.
 
-## Why I built it
+**Made by Parv Nar.** Each class has a short name for a phone widget, a subject colour, and the full subject and faculty names inside the event.
 
-The timetable can change after it is published. I first made a calendar sync for post-midterm classes, then adapted it for the pre-midterm 2 schedule. This version also adds faculty names, subject colours, a preview of changes, and safer handling of cancelled classes.
+## Before you start
 
-## What it does
+- Use the **institute Google account** that can open the [PGP17 timetable](https://docs.google.com/spreadsheets/d/1En591R2sVtII-zUMriVSKB0Pi7ZtLQxLbNDtS_OcGpQ/edit). The classes will be added to **that account's calendar**.
+- Know your section letter: **A, B, C, D, or E**.
+- Do these steps on a **computer**. You can view the result on your phone afterward.
+- Allow about **10 minutes** for setup.
 
-- Syncs the three class slots for **one section (A, B, C, D, or E)**. The afternoon quiz/case-preparation block is ignored.
-- Uses the short timetable label as the event title, such as `ODD 1(LRM)`.
-- Shows the full subject and faculty names, followed by `© Parv Nar`, in the event description. Fixed section and classroom details are omitted.
-- Uses a consistent Google Calendar event colour for each subject.
-- Adds new classes, updates changed ones, and removes cancelled classes. Empty cells and `-` mean no class.
-- Recognizes only events created by this project, leaving personal events alone. Separate script projects can run for different sections without overwriting one another's events.
-- Changes only today's and future events. If the timetable cannot be read or looks incomplete, the script stops before changing the calendar.
+## Set it up once
 
-For example, a Section E event from the downloaded schedule looks like this:
+### 1. Copy the script
 
-```text
-08:45–10:00  ODD 1(LRM)
+Open **[PrMT2_ScheduleSync.gs](PrMT2_ScheduleSync.gs)**. Above the code, click the **copy icon** beside **Raw**. This copies the whole script.
 
-Subject: Organizational Design and Dynamics
-Faculty: Dr. Lubna Rashid Malik
+<img src="https://github.com/user-attachments/assets/b61d9d06-b484-4848-b4d8-0e9b46ece00b" alt="Screenshot of the script on GitHub. The Copy raw file button is above the code, next to Raw." width="900">
 
-© Parv Nar
+### 2. Create a Google Apps Script project
+
+While signed in to your **institute account**, open **[Google Apps Script](https://script.google.com/home)** and click **New project**.
+
+<img src="https://github.com/user-attachments/assets/45017d3e-1918-42ee-bb1f-c5ab57ce6304" alt="Screenshot of the Google Apps Script home page showing the New project button in the top left." width="900">
+
+In the new project, open `Code.gs`. Delete the starter code and **paste** the script you copied. Give the project a name such as `My class calendar`.
+
+### 3. Choose your section
+
+Near the top of the code, find this line:
+
+```javascript
+const TARGET_SECTION = 'E';
 ```
 
-The exact appearance of colours and event text in a phone widget depends on the calendar app and widget.
+Replace **only the letter between the quotation marks** with your section. For example, Section B should say `const TARGET_SECTION = 'B';`. Then click **Save** (the disk icon). You do not need to change anything else.
 
-## Built with
+### 4. Check what will happen
 
-- Google Apps Script
-- Google Sheets and Google Calendar services
-- Script Properties to keep separate copies from changing each other's events
+At the top of the Apps Script editor, open the **function menu**, choose `previewSchedule`, and click **Run**. The first run asks you to sign in and allow access to the timetable and your calendar. Select the **institute account** and approve the permissions if you trust this script.
 
-No package installation, API key, or downloaded timetable file is needed to run the script.
+Look at the **Execution log** at the bottom. `ADD` means a class will be created; `UPDATE` means one will change; `REMOVE` means one will be deleted. **Preview does not change the calendar.** If you see an error, use the help table below before going further.
 
-## Setup guide
+### 5. Add the classes
 
-1. Sign in to the **institute Google account** that can open the timetable. The script writes to that account's default Google Calendar.
-2. Open [Google Apps Script](https://script.google.com/) and create a new project. Paste the contents of [PrMT2_ScheduleSync.gs](PrMT2_ScheduleSync.gs) into `Code.gs`, replacing the starter function. Save the project.
-3. Near the top, change only `TARGET_SECTION = 'E'` to your section letter (`A`, `B`, `C`, `D`, or `E`). Keep the quotation marks. This version is tied to the PGP17 pre-midterm 2 sheet and its date range.
-4. In **Project Settings**, set the script time zone to **Asia/Kolkata**.
-5. Select **`previewSchedule`** in the function menu and click **Run**. Approve the requested Google permissions. Open **Executions** to inspect the `ADD`, `UPDATE`, and `REMOVE` lines. Preview does not edit Calendar.
-6. Select **`syncSchedule`** and run it once. Check the institute account's Google Calendar for the class events and their descriptions.
-7. In Apps Script, open **Triggers** (clock icon), choose **Add Trigger**, select `syncSchedule`, select **Time-driven**, then choose **Hour timer** and **Every hour**. Keep just one hourly trigger for each script project.
-8. Enable the institute account's calendar in the Google Calendar app and your phone widget.
+Choose `syncSchedule` from the same function menu and click **Run** once. Open [Google Calendar](https://calendar.google.com/) while signed in to the institute account and check a future class. Its short title should look like `ODD 1(LRM)`; opening it shows the full subject, faculty, and `© Parv Nar`.
 
-If you are replacing the earlier Section E code in the **same** Apps Script project, its existing `syncSectionESchedule` trigger still works. Do not add a second hourly trigger for the same project.
+### 6. Make it update every hour
 
-Google's [installable trigger guide](https://developers.google.com/apps-script/guides/triggers/installable) explains the trigger settings. Hourly means the calendar follows changes on the next run; it is not instantaneous.
+In Apps Script, click the **clock icon** on the left (**Triggers**), then **Add Trigger**. Choose:
 
-## Sharing with another section
-
-Make a **separate Apps Script project** for each person or section, paste the same script, and change `TARGET_SECTION` at the top. Each copy needs an account with access to the institute sheet and its own hourly trigger. Copies use different internal identifiers, so they will not change each other's events if they happen to use the same calendar.
-
-The source file and events credit **Parv Nar**. Please retain that credit when sharing. Apps Script source shared with edit access can be changed, including the credit; the watermark is visible attribution, not encryption or a technical lock. For stronger control of the original code, keep the Apps Script project private and share a calendar with view-only access instead.
-
-## Troubleshooting
-
-| What you see | What to check |
+| Setting | Select |
 | --- | --- |
-| `Timetable tab not found` | The live Google Sheet must have a tab named `PGP17 Term -II PrMT`. |
-| Permission error when running | Use a Google account that can open the institute sheet and write to its default calendar. |
-| `The timetable looks incomplete` | Check that the full schedule and the selected section's rows are present. The script stops to avoid deleting events from a partial import. |
-| No upcoming dates remain | This script covers 1 October to 21 November 2026. It stops after that range. |
-| Wrong section appears | Check the single `TARGET_SECTION` line and run the preview again. |
-| Duplicate hourly updates | Remove extra triggers for the same Apps Script project. |
+| Function to run | `syncSchedule` |
+| Event source | **Time-driven** |
+| Type | **Hour timer** |
+| Interval | **Every hour** |
 
-The script does not copy the spreadsheet itself into this repository. The source Google Sheet has restricted access, and this project has not been run against the live sheet or calendar from this repository.
+Click **Save**. Add **one** hourly trigger for this project. Sheet changes will usually reach your calendar on the next hourly run, not immediately.
 
-## Project status
+## See the classes on your phone
 
-The code has passed local syntax and simulated sync checks for repeat runs, changed classes, cancellations, and separate section copies. The first live run should start with `previewSchedule`, followed by a manual `syncSchedule` check before enabling the hourly trigger.
+Add the **institute Google account** to your phone's Google Calendar app. Make sure its calendar is visible in the app and in your widget. The widget may show colours and text differently depending on the phone app.
 
-Created by **Parv Nar**.
+## If something goes wrong
+
+| What you see | What to do |
+| --- | --- |
+| No classes in your calendar | Check that you are viewing the **institute account's calendar**, then run `syncSchedule` once and check the **Execution log**. |
+| Permission or access error | Confirm the same account can open the [institute timetable](https://docs.google.com/spreadsheets/d/1En591R2sVtII-zUMriVSKB0Pi7ZtLQxLbNDtS_OcGpQ/edit). If your institute blocks Apps Script, ask its IT team. |
+| Wrong section | Correct the single `TARGET_SECTION` letter, save, preview, then run `syncSchedule`. |
+| Timetable looks incomplete | Stop and check that the live sheet loads fully. The script protects your calendar by making no changes when it cannot read enough rows. |
+| No upcoming dates remain | This version covers **1 October to 21 November 2026**. It is for the Pre Mid Term 2 schedule only. |
+
+If you previously used the older **Section E** script in the *same* Apps Script project, its existing hourly trigger may still run this new version. Check **Triggers** before adding another one.
+
+## For another section
+
+Make a **new Apps Script project** and follow the same steps, changing just `TARGET_SECTION`. Every copy needs access to the institute sheet. Please keep **Parv Nar** credited when sharing. Public code and visible calendar credit can be changed by someone who copies the project; they are attribution, not a technical lock.
+
+The private timetable is not stored here. This script was checked with sample data, but the first run on the live timetable should start with `previewSchedule`.
