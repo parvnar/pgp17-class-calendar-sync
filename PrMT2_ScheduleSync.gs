@@ -1,7 +1,7 @@
 /**
  * PGP17 Term II pre-midterm calendar sync.
  * Creator: Parv Nar
- * Please retain the creator credit when sharing this script or its output.
+ 
  * Share a copy after changing only TARGET_SECTION below.
  * Run syncSchedule once, then attach one hourly trigger to syncSchedule.
  */
