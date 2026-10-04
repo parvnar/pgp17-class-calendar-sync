@@ -58,6 +58,12 @@ In Apps Script, click the **clock icon** on the left (**Triggers**), then **Add 
 | Type | **Hour timer** |
 | Interval | **Every hour** |
 
+The screenshots below show the top and bottom of the same trigger window. The project name is only an example.
+
+<img src="https://github.com/user-attachments/assets/816aec7c-a08d-4087-910a-72b3e56d3bb5" alt="Top of the Apps Script Add Trigger window, showing syncSchedule, Time-driven, and Hour timer." width="900">
+
+<img src="https://github.com/user-attachments/assets/2bbb1523-57dc-4ee5-8820-73fefc7c83c0" alt="Bottom of the Add Trigger window, showing Time-driven, Hour timer, Every hour, and Save." width="900">
+
 Click **Save**. Add **one** hourly trigger for this project. Sheet changes will usually reach your calendar on the next hourly run, not immediately.
 
 ## See the classes on your phone
