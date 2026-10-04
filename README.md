@@ -4,6 +4,12 @@ Add your **Pre Mid Term 2 classes** to Google Calendar. The script checks the in
 
 **Made by Parv Nar.** Calendar titles are short for phone widgets. Open an event to see the full subject and faculty names.
 
+### What you will see
+
+Here is a real example on **Android** after the classes are added. Your colours and widget layout may look different, especially on iPhone.
+
+<img src="android-widget-example.jpg" alt="Android home screen showing the Google Calendar schedule widget with three coloured classes and short subject and faculty names" width="320">
+
 ## Before you start
 
 ✅ Use your **institute Google account**. It must open the [PGP17 timetable](https://docs.google.com/spreadsheets/d/1En591R2sVtII-zUMriVSKB0Pi7ZtLQxLbNDtS_OcGpQ/edit). Classes appear in **that account's calendar**.
