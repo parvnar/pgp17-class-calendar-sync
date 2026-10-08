@@ -16,11 +16,11 @@ Every PGP17 Term II class for your section, in Google Calendar, with what to pre
 Sign in with your **institute Google account**, then pick your section. The calendars only open for `@iimrohtak.ac.in` accounts.
 
 <p>
-  <a href="LINK_A"><img src="images/add-section-a.png" alt="Add Section A" width="300"></a>
-  <a href="LINK_B"><img src="images/add-section-b.png" alt="Add Section B" width="300"></a>
-  <a href="LINK_C"><img src="images/add-section-c.png" alt="Add Section C" width="300"></a>
-  <a href="LINK_D"><img src="images/add-section-d.png" alt="Add Section D" width="300"></a>
-  <a href="LINK_E"><img src="images/add-section-e.png" alt="Add Section E" width="300"></a>
+  <a href="https://calendar.google.com/calendar/u/0?cid=Y182ZGJmMTc4ZTQ5MzU1YjI1YjZhOTkwMmQ5ODJmYzcwMDIxODdhNmEzZmVjOGE0OGM2M2Y4OGIwNDE5ZTYxMWNhQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"><img src="images/add-section-a.png" alt="Add Section A" width="300"></a>
+  <a href="https://calendar.google.com/calendar/u/0?cid=Y185NjNiYjkyNDQ3YmUxMzE3NzM0MmIxMTIxYzI2NTU1ZDI1MGUxYzA3ZDIyMDE0ZmEzNWUyZjFkNzIxZDE3MzZiQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"><img src="images/add-section-b.png" alt="Add Section B" width="300"></a>
+  <a href="https://calendar.google.com/calendar/u/0?cid=Y19hMTIzZTYwYzA2MjAwZWU1NjllNTI5Mzk3MTI4NzRhNmIyNTYyOWEwNWI4MmNlM2JjYTliNGM3N2M5ZTA0YmI1QGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"><img src="images/add-section-c.png" alt="Add Section C" width="300"></a>
+  <a href="https://calendar.google.com/calendar/u/0?cid=Y18zN2M2MzEyZmFmMjViNzgwMGIyYjJiZWY4OWMwMTI3MDY4NWYxZTA5NDVmNDA0NTFmMzQ3MTY5YjExNTQ0MTdjQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"><img src="images/add-section-d.png" alt="Add Section D" width="300"></a>
+  <a href="https://calendar.google.com/calendar/u/0?cid=Y19lNTQxNjQ3MjNlMTE1ODJjZjc1MzQyOGNkY2ExMTcwNmVlMGIzYzM4MjM0YjhmYzk2ZTU0ZGMwOWNlNTg2ZmRlQGdyb3VwLmNhbGVuZGFyLmdvb2dsZS5jb20"><img src="images/add-section-e.png" alt="Add Section E" width="300"></a>
 </p>
 
 <details>
@@ -52,11 +52,11 @@ In [Google Calendar](https://calendar.google.com/) on a laptop, choose **Other c
 
 | Section | Calendar ID |
 | :-: | --- |
-| A | `ID_A` |
-| B | `ID_B` |
-| C | `ID_C` |
-| D | `ID_D` |
-| E | `ID_E` |
+| A | `c_6dbf178e49355b25b6a9902d982fc7002187a6a3fec8a48c63f88b0419e611ca@group.calendar.google.com` |
+| B | `c_963bb92447be13177342b1121c26555d250e1c07d22014fa35e2f1d721d1736b@group.calendar.google.com` |
+| C | `c_a123e60c06200ee569e52939712874a6b25629a05b82ce3bca9b4c77c9e04bb5@group.calendar.google.com` |
+| D | `c_37c6312faf25b7800b2b2bef89c01270685f1e0945f40451f347169b1154417c@group.calendar.google.com` |
+| E | `c_e54164723e11582cf753428cdca11706ee0b3c38234b8fc96e54dc09ce586fde@group.calendar.google.com` |
 </details>
 
 ## What's in every class

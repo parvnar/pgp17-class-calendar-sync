@@ -519,7 +519,8 @@ function existingCalendars_() {
 }
 
 function addLink_(calendarId) {
-  return 'https://calendar.google.com/calendar/u/0/r?cid=' + encodeURIComponent(calendarId);
+  // Same format as Google Calendar's own "share" link.
+  return 'https://calendar.google.com/calendar/u/0?cid=' + Utilities.base64Encode(calendarId).replace(/=+$/, '');
 }
 
 function writeCalendarLinks_(calendars, domain) {
