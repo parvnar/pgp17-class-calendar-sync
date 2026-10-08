@@ -1,115 +1,121 @@
-# PGP17 class calendar sync
+# PGP17 class calendar
 
-Add your **Pre Mid Term 2 classes** to Google Calendar. The script checks the institute timetable about once an hour and updates future classes when the sheet changes.
+Every PGP17 Term II class for your section, in Google Calendar, kept up to date **every hour** from the institute timetable.
 
-**Made by Parv Nar.** Calendar titles are short for phone widgets. Open an event to see the full subject and faculty names.
+**Version 2.** Each class now shows what to prepare for it:
 
-### What you will see
+- 📘 **Topic** of the session and the **book chapters** to read
+- 📄 **Case to prepare**, with a link that opens the PDF from the course Drive folder
+- 📑 **Reading**, also linked
+- 📍 **Room**, faculty and session number
 
-Here is a real example on **Android** after the classes are added. Your colours and widget layout may look different, especially on iPhone.
+Nothing to install. Add your section's calendar once and it updates itself. Rescheduled, extra and cancelled classes follow the timetable automatically.
 
-<img src="android-widget-example.jpg" alt="Android home screen showing the Google Calendar schedule widget with three coloured classes and short subject and faculty names" width="320">
+**Made by Parv Nar.**
 
-## Before you start
+<img src="images/android-widget-example.jpg" alt="Android home screen showing the Google Calendar schedule widget with coloured classes" width="320">
 
-✅ Use your **institute Google account**. It must open the [PGP17 timetable](https://docs.google.com/spreadsheets/d/1En591R2sVtII-zUMriVSKB0Pi7ZtLQxLbNDtS_OcGpQ/edit). Classes appear in **that account's calendar**.
+---
 
-✅ Know your section letter: **A, B, C, D, or E**.
+## 1 → Add your section's calendar
 
-✅ Use a computer for setup. Allow about **10 minutes**. You can view the calendar on your phone afterward.
+| Section | Add to Google Calendar |
+| :-: | --- |
+| **A** | [➕ Add Section A](LINK_A) |
+| **B** | [➕ Add Section B](LINK_B) |
+| **C** | [➕ Add Section C](LINK_C) |
+| **D** | [➕ Add Section D](LINK_D) |
+| **E** | [➕ Add Section E](LINK_E) |
 
-## Set it up once
+🔒 The calendars only open for **@iimrohtak.ac.in** accounts. Use your institute ID, not personal Gmail.
 
-### 1 → Copy the script
+### On a laptop
+1. Make sure Chrome is signed in to your **institute Google account**. If you have several accounts, open [Google Calendar](https://calendar.google.com/) and switch to the institute one first.
+2. Click your section's link above → **Add**.
 
-1. Open **[PrMT2_ScheduleSync.gs](PrMT2_ScheduleSync.gs)**.
-2. Find **Raw** above the code → click the **copy icon immediately beside it** (red arrow).
+### On an Android phone
+1. Open your section's link in **Chrome**. If the Calendar app opens instead, go back and stay in Chrome.
+2. Tap **⋮** (top right) → tick **Desktop site**.
+3. Check the account shown at the top right is your institute ID → tap **Add**.
+4. Open the **Google Calendar app** → **☰ Menu** → under your institute account, make sure **PGP17 Term II – Section X** is ticked.
 
-![Arrow pointing to Copy raw file beside Raw](copy-script.png)
+### On an iPhone
+Safari and the iOS Calendar app can't subscribe to a Google calendar this way. Add it once from a laptop (or from Chrome on Android) with your institute ID. Then, in the **Google Calendar app** on your iPhone, sign in with the same institute account. The section calendar appears there automatically.
 
-### 2 → Create a project
+### Link didn't work?
+On a laptop, open [Google Calendar](https://calendar.google.com/) with your institute ID → **Other calendars → + → Subscribe to calendar** → paste your section's Calendar ID:
 
-1. Sign in to your **institute Google account** → open [Google Apps Script](https://script.google.com/home).
-2. Click **New project** (red arrow).
+| Section | Calendar ID |
+| :-: | --- |
+| A | `ID_A` |
+| B | `ID_B` |
+| C | `ID_C` |
+| D | `ID_D` |
+| E | `ID_E` |
 
-![Arrow pointing to New project in Google Apps Script](new-project.png)
+---
 
-3. Open `Code.gs` → select and delete the starter code → **paste** the script you copied.
-4. Click **Untitled project** at the top → name it `My class calendar`.
+## 2 → Did you set up the old version (v1)?
 
-### 3 → Choose your section
+If you ran the v1 script from this page in your own Apps Script project, **stop it now**. Otherwise every class appears twice: once from your v1, once from the shared calendar.
 
-1. Near the top of the code, find `const TARGET_SECTION = 'E';`.
-2. Change **only the letter inside the quotes**. For Section B, use `const TARGET_SECTION = 'B';`.
-3. Click **Save** (disk icon).
+1. Open [Google Apps Script](https://script.google.com/home) with your institute ID → open your v1 project (e.g. `My class calendar`).
+2. Open **[v2/stop-v1.gs](v2/stop-v1.gs)** → copy the code with the copy icon next to **Raw**.
+3. In your project, select all the code in `Code.gs` → paste → **Save**.
+4. Function menu → `stopV1AndClean` → **Run** → allow permissions if asked.
+5. The **Execution log** says `v1 stopped. Removed N upcoming class events…`. Done. You can delete that project afterwards.
 
-### 4 → Allow access on the first run
+It removes only the upcoming class events your v1 created, using v1's hidden tag. Your own events and past classes stay. Then add your section's calendar from step 1.
 
-The script needs permission to **read the timetable** and **create, change, and remove events** in your institute account's Google Calendar. Google asks for this when you first run the project, even if you start with the preview.
+Don't set up v2 on your own account. One copy runs centrally and everyone subscribes to it.
 
-1. At the top of the Apps Script editor, open the **function menu** → select `previewSchedule` → click **Run** (▶).
-2. When **Authorization required** appears → click **Review permissions**.
-3. Choose the **same institute Google account** used for the timetable.
-4. Review the requested **Google Sheets** and **Google Calendar** access → select all required permissions if Google shows checkboxes → click **Allow**.
-5. If Google shows **"Google hasn't verified this app"**, check that it is the project **you just created** from the script linked above. If you trust that code, click **Advanced** → **Go to My class calendar (unsafe)** → review the permissions → **Allow**. The project name may differ if you chose another name.
+---
 
-If the institute blocks authorization, contact its IT team. [Google's authorization guide](https://developers.google.com/apps-script/guides/services/authorization) explains why Apps Script asks for access.
+## 3 → Put the classes on your home screen
 
-### 5 → Check the preview, then add classes
+### Android
+1. Touch and hold an empty spot on the Home screen → **Widgets**.
+2. **Google Calendar** → touch and hold **Calendar schedule** → drag it onto the screen.
+3. Touch and hold the widget → drag its edges to make it taller.
 
-1. Open **Execution log** at the bottom. `ADD` = new class, `UPDATE` = changed class, `REMOVE` = cancelled class. **Preview does not edit the calendar.**
-2. If the preview looks right → function menu → `syncSchedule` → **Run** once.
-3. Open [Google Calendar](https://calendar.google.com/) in the **institute account** → find a future class. A short title looks like `ODD 1(LRM)`; opening it shows the full subject, faculty, and © Parv Nar.
+[Google's Android widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DAndroid&hl=en)
 
-### 6 → Update automatically every hour
+### iPhone
+1. Open the **Google Calendar app** once and check your section's classes are visible.
+2. Touch and hold the Home Screen → **Edit** → **Add Widget** → search **Google Calendar** → pick a size → **Add Widget**.
 
-1. In Apps Script, click the **clock icon** on the left (**Triggers**) → **Add Trigger**.
-2. Set **Function to run** → `syncSchedule`; **Event source** → **Time-driven**; **Type** → **Hour timer** (red arrows).
+[Google's iPhone widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DiOS&hl=en)
 
-![Arrows pointing to syncSchedule, Time-driven, and Hour timer](trigger-settings.png)
+---
 
-3. Scroll down → set **Hour interval** → **Every hour** → click **Save** (red arrows).
+## Tips
 
-![Arrows pointing to Every hour and Save](trigger-save.png)
+- **Hide sections you don't need.** If you added more than one, untick the others in the Calendar sidebar or menu.
+- **Your own reminders.** Calendar settings → *PGP17 Term II – Section X* → **Event notifications**, e.g. 30 minutes before.
+- **"File not on Drive yet"** next to a case means the PDF hasn't been uploaded. The link appears automatically once it is.
+- **A case link says "request access".** Make sure you're signed in with your institute ID.
 
-Add **one** hourly trigger. A timetable change usually appears after the next hourly run, not immediately.
+## If something looks wrong
 
-## Put the class widget on your phone
-
-First, open the **Google Calendar app** on your phone → tap your **profile photo** (top right) → **Add another account** → sign in with the same **institute account** you used for the script. Then tap **☰ Menu** (top left) → make sure the institute account's calendar is checked. Open a future class in the app before adding the widget. [Google's account steps](https://support.google.com/calendar/answer/15619834?hl=en)
-
-### Android → add the schedule widget
-
-1. Touch and hold an empty spot on the **Home screen** → tap **Widgets**.
-2. Find **Google Calendar** → touch and hold **Calendar schedule** → drag it onto the Home screen. Choose **Calendar month view** instead if you prefer a month grid.
-3. If you want to see more classes at once, touch and hold the new widget → drag its resize handles to make it taller.
-
-[Google's Android widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DAndroid&hl=en) notes that the menu can vary slightly by phone.
-
-### iPhone → add the Google Calendar widget
-
-1. Install and open the **Google Calendar app** once. In the app, check that your institute calendar and its classes are visible.
-2. Touch and hold an empty spot on the **Home Screen** → tap **Edit** → **Add Widget** (or the **+** button, depending on iOS).
-3. Search for **Google Calendar** → choose a widget size → tap **Add Widget** → **Done**.
-
-If Google Calendar is missing from the widget list, open the app once and try again. [Google's iPhone widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DiOS&hl=en)
-
-The widget shows events from the calendars enabled in the Google Calendar app. Its colours and number of visible classes may vary by phone and widget size.
-
-## If something goes wrong
-
-| What you see | What to do |
+| What you see | Why / what to do |
 | --- | --- |
-| No classes | Google Calendar → switch to the **institute account** → run `syncSchedule` again → check **Execution log**. |
-| Permission or access error | Open the [institute timetable](https://docs.google.com/spreadsheets/d/1En591R2sVtII-zUMriVSKB0Pi7ZtLQxLbNDtS_OcGpQ/edit) with the **same account**. If Apps Script is blocked, contact institute IT. |
-| Wrong section | Change the one `TARGET_SECTION` letter → **Save** → run `previewSchedule` → run `syncSchedule`. |
-| Timetable looks incomplete | Check whether the live sheet loads fully. The script makes no calendar changes if it cannot read enough rows. |
-| No upcoming dates | This version covers **1 October to 21 November 2026** only. |
+| "You do not have access" / can't add | You're on a personal Gmail account. Switch to your institute ID. |
+| Calendar added but empty on phone | Calendar app → ☰ → tick *PGP17 Term II – Section X* under the institute account. |
+| Every class shows twice | Your old v1 is still running. Do step 2. |
+| A class differs from the timetable | The calendar refreshes hourly. If it's still wrong after an hour, tell the maintainer. |
 
-If you used the older **Section E** script in the *same* Apps Script project, it may already have an hourly trigger. Check **Triggers** before adding another.
+---
 
-## For another section
+## For the maintainer
 
-Make a **new Apps Script project** → paste the same script → change only `TARGET_SECTION` → follow the permission, preview, and trigger steps above. Every copy needs access to the institute timetable.
+The script runs from a single institute account and keeps all five calendars updated. Setup, configuration and the session-details sheet are explained in **[v2/SETUP.md](v2/SETUP.md)**.
 
-The private timetable is not stored in this repository. Start with `previewSchedule` on the live sheet.
+| Path | What it is |
+| --- | --- |
+| [`v2/Code.gs`](v2/Code.gs) | The v2 sync script (all sections, hourly) |
+| [`v2/appsscript.json`](v2/appsscript.json) | Manifest (enables the Google Calendar API service) |
+| [`v2/stop-v1.gs`](v2/stop-v1.gs) | Stops a v1 install and removes its upcoming events |
+| [`v2/tools/build_details.py`](v2/tools/build_details.py) | Builds the Session Details workbook from the course prep plan |
+| [`v1/`](v1/) | Version 1: per-person script and its original guide |
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed.
