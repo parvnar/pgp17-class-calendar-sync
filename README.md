@@ -1,49 +1,54 @@
-# PGP17 class calendar
+<p align="center">
+  <img src="images/hero.png" alt="A week of Section E classes in course colours, with one session opened to show its case, reading and book chapter" width="100%">
+</p>
 
-Every PGP17 Term II class for your section, in Google Calendar, kept up to date **every hour** from the institute timetable.
+<p align="center">
+  <img alt="Updates every hour" src="https://img.shields.io/badge/updates-every%20hour-1A2233?style=flat-square">
+  <img alt="Sections A to E" src="https://img.shields.io/badge/sections-A%20%E2%80%93%20E-8E24AA?style=flat-square">
+  <img alt="Institute accounts only" src="https://img.shields.io/badge/access-%40iimrohtak.ac.in%20only-0B8043?style=flat-square">
+  <img alt="Built with Google Apps Script" src="https://img.shields.io/badge/built%20with-Google%20Apps%20Script-039BE5?style=flat-square">
+</p>
 
-**Version 2.** Each class now shows what to prepare for it:
+Every PGP17 Term II class for your section, in Google Calendar, with what to prepare for it. One shared calendar per section, rebuilt from the batch timetable every hour. Rescheduled, extra and cancelled classes follow automatically. Add it once; there's nothing to install.
 
-- 📘 **Topic** of the session and the **book chapters** to read
-- 📄 **Case to prepare**, with a link that opens the PDF from the course Drive folder
-- 📑 **Reading**, also linked
-- 📍 **Room**, faculty and session number
+## Add your section
 
-Nothing to install. Add your section's calendar once and it updates itself. Rescheduled, extra and cancelled classes follow the timetable automatically.
+Sign in with your **institute Google account**, then pick your section. The calendars only open for `@iimrohtak.ac.in` accounts.
 
-**Made by Parv Nar.**
+<p>
+  <a href="LINK_A"><img src="images/add-section-a.png" alt="Add Section A" width="300"></a>
+  <a href="LINK_B"><img src="images/add-section-b.png" alt="Add Section B" width="300"></a>
+  <a href="LINK_C"><img src="images/add-section-c.png" alt="Add Section C" width="300"></a>
+  <a href="LINK_D"><img src="images/add-section-d.png" alt="Add Section D" width="300"></a>
+  <a href="LINK_E"><img src="images/add-section-e.png" alt="Add Section E" width="300"></a>
+</p>
 
-<img src="images/android-widget-example.jpg" alt="Android home screen showing the Google Calendar schedule widget with coloured classes" width="320">
+<details>
+<summary><b>On a laptop</b></summary>
 
----
+1. Open [Google Calendar](https://calendar.google.com/) and check the account at the top right is your institute ID. Switch to it if needed.
+2. Click your section's button above, then **Add**.
+</details>
 
-## 1 → Add your section's calendar
+<details>
+<summary><b>On an Android phone</b></summary>
 
-| Section | Add to Google Calendar |
-| :-: | --- |
-| **A** | [➕ Add Section A](LINK_A) |
-| **B** | [➕ Add Section B](LINK_B) |
-| **C** | [➕ Add Section C](LINK_C) |
-| **D** | [➕ Add Section D](LINK_D) |
-| **E** | [➕ Add Section E](LINK_E) |
+1. Long-press your section's button above and open it in **Chrome**. If the Calendar app opens instead, go back.
+2. In Chrome, tap **⋮** and tick **Desktop site**.
+3. Check the account at the top right is your institute ID, then tap **Add**.
+4. In the **Google Calendar app**, open **☰**. Under your institute account, make sure **PGP17 Term II – Section X** is ticked.
+</details>
 
-🔒 The calendars only open for **@iimrohtak.ac.in** accounts. Use your institute ID, not personal Gmail.
+<details>
+<summary><b>On an iPhone</b></summary>
 
-### On a laptop
-1. Make sure Chrome is signed in to your **institute Google account**. If you have several accounts, open [Google Calendar](https://calendar.google.com/) and switch to the institute one first.
-2. Click your section's link above → **Add**.
+iOS can't subscribe to a Google calendar from a link. Add it once from a laptop with your institute ID. Then sign in to the **Google Calendar app** on your iPhone with the same account, and the section calendar appears there.
+</details>
 
-### On an Android phone
-1. Open your section's link in **Chrome**. If the Calendar app opens instead, go back and stay in Chrome.
-2. Tap **⋮** (top right) → tick **Desktop site**.
-3. Check the account shown at the top right is your institute ID → tap **Add**.
-4. Open the **Google Calendar app** → **☰ Menu** → under your institute account, make sure **PGP17 Term II – Section X** is ticked.
+<details>
+<summary><b>Button didn't work? Add it by Calendar ID</b></summary>
 
-### On an iPhone
-Safari and the iOS Calendar app can't subscribe to a Google calendar this way. Add it once from a laptop (or from Chrome on Android) with your institute ID. Then, in the **Google Calendar app** on your iPhone, sign in with the same institute account. The section calendar appears there automatically.
-
-### Link didn't work?
-On a laptop, open [Google Calendar](https://calendar.google.com/) with your institute ID → **Other calendars → + → Subscribe to calendar** → paste your section's Calendar ID:
+In [Google Calendar](https://calendar.google.com/) on a laptop, choose **Other calendars → + → Subscribe to calendar**, then paste your section's ID:
 
 | Section | Calendar ID |
 | :-: | --- |
@@ -52,70 +57,92 @@ On a laptop, open [Google Calendar](https://calendar.google.com/) with your inst
 | C | `ID_C` |
 | D | `ID_D` |
 | E | `ID_E` |
+</details>
 
----
+## What's in every class
 
-## 2 → Did you set up the old version (v1)?
+<img src="images/event-preview.png" alt="A class event showing the session topic, book chapters, and linked case and reading PDFs" width="560" align="right">
 
-If you ran the v1 script from this page in your own Apps Script project, **stop it now**. Otherwise every class appears twice: once from your v1, once from the shared calendar.
+Open any class to see:
 
-1. Open [Google Apps Script](https://script.google.com/home) with your institute ID → open your v1 project (e.g. `My class calendar`).
-2. Open **[v2/stop-v1.gs](v2/stop-v1.gs)** → copy the code with the copy icon next to **Raw**.
-3. In your project, select all the code in `Code.gs` → paste → **Save**.
-4. Function menu → `stopV1AndClean` → **Run** → allow permissions if asked.
-5. The **Execution log** says `v1 stopped. Removed N upcoming class events…`. Done. You can delete that project afterwards.
+- the **topic** of that session and the **book chapters** to read
+- the **case to prepare**, linked to its PDF in the course Drive folder
+- the **reading** for the session, also linked
+- the **faculty**, the **room** and the session number
 
-It removes only the upcoming class events your v1 created, using v1's hidden tag. Your own events and past classes stay. Then add your section's calendar from step 1.
+Classes keep the timetable's short codes, like `MEB 5 (DB)`, so phone widgets stay readable, and each course has its own colour.
 
-Don't set up v2 on your own account. One copy runs centrally and everyone subscribes to it.
+If a case shows *file not on Drive yet*, its PDF hasn't been uploaded. The link appears on its own once it is.
 
----
+<br clear="right">
 
-## 3 → Put the classes on your home screen
+## Already set up the old version?
 
-### Android
-1. Touch and hold an empty spot on the Home screen → **Widgets**.
-2. **Google Calendar** → touch and hold **Calendar schedule** → drag it onto the screen.
-3. Touch and hold the widget → drag its edges to make it taller.
+If you ran the **v1** script from this page in your own Apps Script project, switch it off. Otherwise every class shows twice.
 
-[Google's Android widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DAndroid&hl=en)
+1. Open [Google Apps Script](https://script.google.com/home) with your institute ID and open your v1 project (e.g. `My class calendar`).
+2. Copy the code in **[v2/stop-v1.gs](v2/stop-v1.gs)** using the copy button next to **Raw**.
+3. In your project, replace everything in `Code.gs` with it and click **Save**.
+4. In the function menu, choose `stopV1AndClean`, click **Run**, and allow permissions if asked.
 
-### iPhone
-1. Open the **Google Calendar app** once and check your section's classes are visible.
-2. Touch and hold the Home Screen → **Edit** → **Add Widget** → search **Google Calendar** → pick a size → **Add Widget**.
+The log says `v1 stopped. Removed N upcoming class events…`. Only events created by v1 are removed. Your own events and past classes stay. Then add your section above.
 
-[Google's iPhone widget guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DiOS&hl=en)
+## Put it on your home screen
 
----
+<img src="images/android-widget-example.jpg" alt="Android home screen with the Google Calendar schedule widget showing coloured classes" width="210" align="right">
 
-## Tips
+**Android:** long-press the Home screen and choose **Widgets → Google Calendar → Calendar schedule**, then drag it out. Long-press it again to resize. ([Google's guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DAndroid&hl=en))
 
-- **Hide sections you don't need.** If you added more than one, untick the others in the Calendar sidebar or menu.
-- **Your own reminders.** Calendar settings → *PGP17 Term II – Section X* → **Event notifications**, e.g. 30 minutes before.
-- **"File not on Drive yet"** next to a case means the PDF hasn't been uploaded. The link appears automatically once it is.
-- **A case link says "request access".** Make sure you're signed in with your institute ID.
+**iPhone:** open the Google Calendar app once. Then long-press the Home Screen and choose **Edit → Add Widget → Google Calendar**. ([Google's guide](https://support.google.com/calendar/answer/10249848?co=GENIE.Platform%3DiOS&hl=en))
 
-## If something looks wrong
+**Reminders:** in Calendar settings, open *PGP17 Term II – Section X* and set **Event notifications**, for example 30 minutes before each class.
 
-| What you see | Why / what to do |
+**More than one section added?** Untick the ones you don't need in the calendar list to hide them.
+
+<br clear="right">
+
+## How it works
+
+<p align="center">
+  <img src="images/how-it-works.png" alt="The timetable, session details and course materials feed an hourly sync script that updates five section calendars" width="100%">
+</p>
+
+A Google Apps Script on one institute account reads three things every hour: the batch timetable, the session-details sheet built from the course outlines, and the Term 2 materials folder. It then updates the five section calendars:
+
+- **Last-minute sessions:** it reads every class cell, including the afternoon slot and sessions added with their own time, like `Mcomm 1 (DS) (16:05-17:20)`.
+- **Prep follows the session, not the date:** if MEB 4 moves from Monday to Thursday, its case and reading move with it.
+- **Changes only:** an event is rewritten only when its time, topic or links actually change.
+- **Safe by default:** if the timetable comes back broken or half-loaded, the run stops before touching any calendar.
+
+## Troubleshooting
+
+| What you see | What to do |
 | --- | --- |
-| "You do not have access" / can't add | You're on a personal Gmail account. Switch to your institute ID. |
-| Calendar added but empty on phone | Calendar app → ☰ → tick *PGP17 Term II – Section X* under the institute account. |
-| Every class shows twice | Your old v1 is still running. Do step 2. |
-| A class differs from the timetable | The calendar refreshes hourly. If it's still wrong after an hour, tell the maintainer. |
+| *You do not have access* / can't add | You're signed in with a personal Gmail account. Switch to your institute ID. |
+| Added, but nothing on your phone | In the Calendar app, open **☰** and tick *PGP17 Term II – Section X* under the institute account. |
+| Every class shows twice | Your v1 script is still running. See [Already set up the old version?](#already-set-up-the-old-version) |
+| A case link asks you to *request access* | Open it while signed in with your institute ID. |
+| A class doesn't match the timetable | Calendars refresh hourly. If it's still wrong after an hour, tell the maintainer. |
+
+## For maintainers
+
+The whole system runs from one account. Setup, configuration and the session-details sheet are covered in **[v2/SETUP.md](v2/SETUP.md)**.
+
+```
+├── v2/
+│   ├── Code.gs              sync script for all sections, runs hourly
+│   ├── appsscript.json      manifest that turns on the Calendar API service
+│   ├── stop-v1.gs           turns off a v1 install and removes its events
+│   ├── SETUP.md             maintainer guide
+│   └── tools/
+│       └── build_details.py builds the session-details sheet from the prep plan
+├── v1/                      original per-person script and its guide
+├── images/                  README visuals
+└── CHANGELOG.md
+```
+
+The private session-details sheet and materials folder IDs aren't stored here. See [CHANGELOG.md](CHANGELOG.md) for what changed in v2.
 
 ---
 
-## For the maintainer
-
-The script runs from a single institute account and keeps all five calendars updated. Setup, configuration and the session-details sheet are explained in **[v2/SETUP.md](v2/SETUP.md)**.
-
-| Path | What it is |
-| --- | --- |
-| [`v2/Code.gs`](v2/Code.gs) | The v2 sync script (all sections, hourly) |
-| [`v2/appsscript.json`](v2/appsscript.json) | Manifest (enables the Google Calendar API service) |
-| [`v2/stop-v1.gs`](v2/stop-v1.gs) | Stops a v1 install and removes its upcoming events |
-| [`v2/tools/build_details.py`](v2/tools/build_details.py) | Builds the Session Details workbook from the course prep plan |
-| [`v1/`](v1/) | Version 1: per-person script and its original guide |
-
-See [CHANGELOG.md](CHANGELOG.md) for what changed.
+<p align="center"><sub>Made by <a href="https://github.com/parvnar">Parv Nar</a> for the PGP17 batch.</sub></p>

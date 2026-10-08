@@ -1,6 +1,6 @@
 > **This is version 1**, kept for reference. It installs a personal copy of the script per person and adds only the subject and faculty to each class.
 > **Use version 2 instead.** Subscribe to your section's shared calendar from the [main README](../README.md). It adds topic, case and reading links, and needs no setup.
-> If you already set up v1, stop it by following [step 2 of the main README](../README.md#2--did-you-set-up-the-old-version-v1).
+> If you already set up v1, stop it by following [the main README](../README.md#already-set-up-the-old-version).
 
 # PGP17 class calendar sync
 

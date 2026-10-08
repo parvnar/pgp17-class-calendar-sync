@@ -53,7 +53,7 @@ in Drive, right-click the **Term 2** folder → **Share** → General access →
 (If someone else owns the folder, ask them to do this.)
 
 ## Switching from v1
-`setupV2` removes the upcoming v1 events from the maintainer's own main calendar (both v1 tags). To run that clean-up again later, run `removeOldV1Events`. Batchmates who ran v1 themselves should follow step 2 of the main README ([`stop-v1.gs`](stop-v1.gs)).
+`setupV2` removes the upcoming v1 events from the maintainer's own main calendar (both v1 tags). To run that clean-up again later, run `removeOldV1Events`. Batchmates who ran v1 themselves should follow [the main README](../README.md#already-set-up-the-old-version) ([`stop-v1.gs`](stop-v1.gs)).
 
 ## Day-to-day
 | You want to… | Do this |
