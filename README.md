@@ -5,7 +5,7 @@
 
 # PGP17 Class Calendar
 
-[![Release](https://img.shields.io/github/v/release/parvnar/pgp17-class-calendar-sync?style=flat-square&color=1D1D1F&label=release)](https://github.com/parvnar/pgp17-class-calendar-sync/releases)
+[![Version](https://img.shields.io/badge/version-2.2.0-1D1D1F?style=flat-square)](CHANGELOG.md)
 [![Google Apps Script](https://img.shields.io/badge/Google%20Apps%20Script-V8-1D1D1F?style=flat-square)](v2/Code.gs)
 
 Shared Google Calendars for every PGP17 Term II section. Each calendar is synced hourly from the batch timetable, and every class shows what to prepare for it. Add your section once; rescheduled, extra and cancelled classes then update on their own.
@@ -115,7 +115,7 @@ images/                Documentation images (light and dark)
 CHANGELOG.md           Version history
 ```
 
-Private IDs for the session-details sheet and the materials folder aren't stored in this repository. Changes are listed in [CHANGELOG.md](CHANGELOG.md) and on the [Releases](https://github.com/parvnar/pgp17-class-calendar-sync/releases) page.
+Private IDs for the session-details sheet and the materials folder aren't stored in this repository. Changes are listed in [CHANGELOG.md](CHANGELOG.md).
 
 ---
 

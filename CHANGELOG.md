@@ -2,7 +2,7 @@
 
 All notable changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
-## [2.2.0] – 2026-10-20
+## 2.2.0 – 2026-10-20
 
 ### Added
 - Every class links to the **course outline** and the subject's **Drive folder**.
@@ -15,7 +15,7 @@ All notable changes to this project. Versions follow [Semantic Versioning](https
 - Drive links are kept in the script (`DRIVE_LINKS`) instead of being found by an hourly Drive scan, so each sync is faster. Set `scanDriveAutomatically: true` to scan again.
 - The README has been redesigned, with light and dark images.
 
-## [2.0.0] – 2026-10-08
+## 2.0.0 – 2026-10-08
 
 ### Added
 - One shared calendar per section (A–E), run from a single account and synced hourly. Nobody needs their own script.
@@ -28,11 +28,7 @@ All notable changes to this project. Versions follow [Semantic Versioning](https
 - Prep details follow the subject and session number, not the date, so they move with rescheduled classes.
 - Events are only rewritten when their content changes; long runs continue automatically.
 
-## [1.0.0] – 2026-10-04
+## 1.0.0 – 2026-10-04
 
 ### Added
 - Personal Apps Script per student that adds their section's classes to their own calendar, with subject and faculty.
-
-[2.2.0]: https://github.com/parvnar/pgp17-class-calendar-sync/releases/tag/v2.2.0
-[2.0.0]: https://github.com/parvnar/pgp17-class-calendar-sync/releases/tag/v2.0.0
-[1.0.0]: https://github.com/parvnar/pgp17-class-calendar-sync/releases/tag/v1.0.0
