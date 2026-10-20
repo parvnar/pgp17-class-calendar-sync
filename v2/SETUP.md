@@ -36,7 +36,7 @@ Do everything signed in with your **institute Google account**.
      take two runs; the second run starts by itself a minute later.
 
 ## 4. Share with the batch
-Copy each section's link and Calendar ID from the **Calendar Links** tab into the tables in the [main README](../README.md). Then send each section its link. Message to paste:
+The section links and Calendar IDs in the [main README](../README.md) come from the **Calendar Links** tab. Then send each section its link. Message to paste:
 
 > Section X class calendar (auto-updates hourly from the timetable, with topic, case and reading links for every session).
 > Open this link on a laptop, or in Chrome with "Desktop site" on, while signed in with your **institute ID**, then tap **Add**:

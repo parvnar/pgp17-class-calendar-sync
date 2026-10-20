@@ -1,25 +1,38 @@
 # Changelog
 
-## v2.2: faster sync, Gmail fix (October 2026)
-- Drive links are kept in the script (`DRIVE_LINKS`), so the hourly sync no longer scans Drive. Set `scanDriveAutomatically: true` to go back to scanning.
-- Excel sheets, slide decks and alternate versions show as extra links next to a case, and session cheat sheets appear under "Class sheets".
-- Your own section's calendar is ticked in Google Calendar on the web, so classes show in Gmail's side panel. Run `showMySectionInGmail` to redo it.
+All notable changes to this project. Versions follow [Semantic Versioning](https://semver.org/).
 
-## v2.1: course links (October 2026)
-- Every class now links to its **course outline** and the subject's **Drive folder**.
-- New **Courses** tab in the session-details sheet. Folder and outline links are found in the Term 2 Drive folder automatically, by course code or full course name, and links you paste by hand are kept.
+## [2.2.0] – 2026-10-20
 
-## v2: shared section calendars with prep details (October 2026)
-- **One shared calendar per section** (A–E), run centrally and updated hourly. Nobody needs their own script any more: subscribe with your institute ID.
-- **Prep details in every class:** topic, book chapters, case and reading with Drive links, room, faculty and session number.
-- **Course materials linked automatically:** files in the Term 2 Drive folder are matched to each case and reading by title, HBS product number or C#/R# code. Manual links in the sheet are never overwritten.
-- **Every class in the timetable is picked up:** the 14:30 slot, plus extra sessions with their own time written in the cell, e.g. `Mcomm 1 (DS) (16:05-17:20)`.
-- **Rescheduled sessions keep their material:** prep details follow the subject and session number, not the date.
-- **Fewer calendar edits:** events are only changed when their content actually changes, and long runs continue automatically instead of hitting Apps Script's time limit.
-- **Same safety check:** a broken or half-loaded timetable stops the run before any calendar change.
-- **Domain-only sharing:** the calendars open only for IIM Rohtak accounts.
-- **Switching from v1:** `v2/stop-v1.gs` stops a v1 install and removes its upcoming events.
+### Added
+- Every class links to the **course outline** and the subject's **Drive folder**.
+- Excel sheets, slide decks and alternate versions of a case appear as extra links next to it.
+- Session cheat sheets appear under *Class sheets* (MEB sessions 2 and 3).
+- `showMySectionInGmail` ticks your own section in Google Calendar on the web, which is what Gmail's side panel shows.
+- Optional **Courses** tab in the session-details sheet to override folder and outline links.
 
-## v1 (September–October 2026)
-- A personal Apps Script per person, choosing the section with `TARGET_SECTION`.
-- Adds each class to the person's own calendar with subject and faculty.
+### Changed
+- Drive links are kept in the script (`DRIVE_LINKS`) instead of being found by an hourly Drive scan, so each sync is faster. Set `scanDriveAutomatically: true` to scan again.
+- The README has been redesigned, with light and dark images.
+
+## [2.0.0] – 2026-10-08
+
+### Added
+- One shared calendar per section (A–E), run from a single account and synced hourly. Nobody needs their own script.
+- Topic, book chapters, case and reading for every session, with links to the course materials.
+- Classes outside the main slots, including sessions with their own time written in the cell.
+- Calendars shared read-only with IIM Rohtak accounts only.
+- `v2/stop-v1.gs` to switch off a v1 install and remove its upcoming events.
+
+### Changed
+- Prep details follow the subject and session number, not the date, so they move with rescheduled classes.
+- Events are only rewritten when their content changes; long runs continue automatically.
+
+## [1.0.0] – 2026-10-04
+
+### Added
+- Personal Apps Script per student that adds their section's classes to their own calendar, with subject and faculty.
+
+[2.2.0]: https://github.com/parvnar/pgp17-class-calendar-sync/releases/tag/v2.2.0
+[2.0.0]: https://github.com/parvnar/pgp17-class-calendar-sync/releases/tag/v2.0.0
+[1.0.0]: https://github.com/parvnar/pgp17-class-calendar-sync/releases/tag/v1.0.0
