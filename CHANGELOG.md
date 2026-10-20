@@ -1,5 +1,9 @@
 # Changelog
 
+## v2.1: course links (October 2026)
+- Every class now links to its **course outline** and the subject's **Drive folder**.
+- New **Courses** tab in the session-details sheet. Folder and outline links are found in the Term 2 Drive folder automatically, by course code or full course name, and links you paste by hand are kept.
+
 ## v2: shared section calendars with prep details (October 2026)
 - **One shared calendar per section** (A–E), run centrally and updated hourly. Nobody needs their own script any more: subscribe with your institute ID.
 - **Prep details in every class:** topic, book chapters, case and reading with Drive links, room, faculty and session number.

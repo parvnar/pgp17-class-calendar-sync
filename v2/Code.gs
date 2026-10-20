@@ -53,6 +53,15 @@ const COURSE_COLORS = {
   MCOMM: '4', WIPS: '5', IK: '8', ODD: '10', FLP: '11'
 };
 
+// Words that identify a course in a Drive folder or file name, besides its code.
+const COURSE_NAME_HINTS = {
+  MANAC: ['management accounting'], DA: ['data analytics'], MEB: ['macro environment', 'macroeconomic'],
+  QMII: ['quantitative methods'], MMII: ['marketing management'], MCOMM: ['managerial communication'],
+  WIPS: ['interview', 'presentation skills'], IK: ['india knowledge', 'indian knowledge'],
+  ODD: ['organization design', 'organisation design', 'organizational design', 'organisational design'],
+  FLP: ['leadership']
+};
+
 const PROP = PropertiesService.getScriptProperties();
 const EVENT_MARK = 'pgp17v2';
 
@@ -392,7 +401,16 @@ function loadDetails_() {
   });
   let folders = {};
   try { folders = JSON.parse(PROP.getProperty('subjectFolders') || '{}'); } catch (e) { folders = {}; }
-  return { sessions: sessions, materials: materials, folders: folders };
+  const outlines = {};
+  if (ss.getSheetByName('Courses')) {
+    readTable_(ss, 'Courses').forEach(function (r) {
+      const course = normCourse_(r['subject']);
+      if (!course) return;
+      if (str_(r['course folder'])) folders[course] = str_(r['course folder']);
+      if (str_(r['course outline'])) outlines[course] = str_(r['course outline']);
+    });
+  }
+  return { sessions: sessions, materials: materials, folders: folders, outlines: outlines };
 }
 
 function buildEvent_(s, plan, details) {
@@ -421,7 +439,12 @@ function buildEvent_(s, plan, details) {
     html.push('', '<i>Prep details for this session have not been added yet.</i>');
   }
   const folder = details.folders[s.courseKey];
-  if (folder) html.push('', '<a href="' + esc_(folder) + '">📁 All ' + esc_(s.courseLabel) + ' material</a>');
+  const outline = details.outlines[s.courseKey];
+  if (folder || outline) {
+    html.push('', '<b>Course links</b>');
+    if (outline) html.push('📋 <a href="' + esc_(outline) + '">' + esc_(s.courseLabel) + ' course outline</a>');
+    if (folder) html.push('📁 <a href="' + esc_(folder) + '">' + esc_(s.courseLabel) + ' Drive folder</a> (all cases, readings and slides)');
+  }
   html.push('', '<small>Timetable cell: ' + esc_(s.cell) + ' · auto-updated hourly · ' + CREATOR_CREDIT + '</small>');
   const description = html.join('<br>');
 
@@ -583,11 +606,17 @@ function linkMaterials_(force) {
   const col = function (name) { return head.indexOf(name); };
   const cSubj = col('subject'), cCode = col('code'), cTitle = col('title'),
         cLink = col('link'), cSrc = col('link source'), cFile = col('matched file');
+  // Subjects from both tabs (WIPS, for example, has sessions but no coded materials).
   const subjectKeys = {};
-  for (let r = 1; r < matData.length; r++) {
-    const k = normCourse_(matData[r][cSubj]);
-    if (k) subjectKeys[k] = true;
-  }
+  const subjectLabels = {};
+  const addSubject = function (raw) {
+    const k = normCourse_(raw);
+    if (!k) return;
+    subjectKeys[k] = true;
+    if (!subjectLabels[k]) subjectLabels[k] = String(raw).trim();
+  };
+  for (let r = 1; r < matData.length; r++) addSubject(matData[r][cSubj]);
+  readTable_(ss, 'Sessions').forEach(function (r) { addSubject(r['subject']); });
 
   // Walk the Drive folder.
   let root;
@@ -615,6 +644,7 @@ function linkMaterials_(force) {
   };
   walk(root, [], [], 0);
   PROP.setProperty('subjectFolders', JSON.stringify(subjectFolders));
+  const outlineFiles = updateCoursesTab_(ss, subjectLabels, subjectFolders, files);
 
   // Match each material that has no manual link.
   const matchedTo = {};
@@ -641,7 +671,7 @@ function linkMaterials_(force) {
   const idx = ss.getSheetByName('Drive Index') || ss.insertSheet('Drive Index');
   idx.clearContents();
   const rows = [['Folder', 'File', 'Link', 'Matched to']].concat(files.map(function (f) {
-    return [f.path.join(' / '), f.name, f.url, matchedTo[f.url] || ''];
+    return [f.path.join(' / '), f.name, f.url, matchedTo[f.url] || outlineFiles[f.url] || ''];
   }));
   idx.getRange(1, 1, rows.length, 4).setValues(rows);
   idx.getRange(1, 1, 1, 4).setFontWeight('bold');
@@ -651,11 +681,69 @@ function linkMaterials_(force) {
     Object.keys(subjectFolders).length + ' subject folders.');
 }
 
+/**
+ * Courses tab: one row per subject with its Drive folder and course outline.
+ * Blank or "auto" links are filled from the Drive scan; anything else is a manual link and is kept.
+ * Returns {fileUrl: "MEB course outline"} for the Drive Index tab.
+ */
+function updateCoursesTab_(ss, labels, subjectFolders, files) {
+  const HEAD = ['Subject', 'Course folder', 'Folder source', 'Course outline', 'Outline source', 'Outline file'];
+  const sh = ss.getSheetByName('Courses') || ss.insertSheet('Courses');
+  const data = sh.getLastRow() ? sh.getDataRange().getValues() : [HEAD];
+  if (String(data[0][0]).trim().toLowerCase() !== 'subject') data.unshift(HEAD);
+  data[0] = HEAD;
+
+  const rowOf = {};
+  for (let r = 1; r < data.length; r++) {
+    while (data[r].length < HEAD.length) data[r].push('');
+    const k = normCourse_(data[r][0]);
+    if (k) rowOf[k] = data[r];
+  }
+  Object.keys(labels).forEach(function (k) {
+    if (!rowOf[k]) { rowOf[k] = [labels[k], '', '', '', '', '']; data.push(rowOf[k]); }
+  });
+
+  const outlineRe = /outline|syllabus|course\s*plan|session\s*plan|course\s*handout/i;
+  const used = {};
+  Object.keys(rowOf).forEach(function (k) {
+    const row = rowOf[k];
+    const folderSrc = String(row[2] || '').trim().toLowerCase();
+    if ((!String(row[1]).trim() || folderSrc === 'auto') && subjectFolders[k]) {
+      row[1] = subjectFolders[k]; row[2] = 'auto';
+    }
+    const outlineSrc = String(row[4] || '').trim().toLowerCase();
+    if (!String(row[3]).trim() || outlineSrc === 'auto') {
+      const one = {}; one[k] = true;
+      let best = null, bestScore = -1;
+      files.forEach(function (f) {
+        if (!outlineRe.test(f.name)) return;
+        const inFolder = f.subjects.indexOf(k) !== -1;
+        const named = subjectsInName_(f.name, one).length > 0;
+        const otherSubject = f.subjects.length && !inFolder;
+        if (otherSubject || !(inFolder || named)) return;
+        const score = (inFolder ? 2 : 0) + (named ? 1 : 0) + (/outline/i.test(f.name) ? 1 : 0) - f.path.length * 0.01;
+        if (score > bestScore) { best = f; bestScore = score; }
+      });
+      if (best) {
+        row[3] = best.url; row[4] = 'auto'; row[5] = best.path.concat(best.name).join(' / ');
+        used[best.url] = labels[k] ? labels[k] + ' course outline' : k + ' course outline';
+      }
+    }
+  });
+
+  sh.clearContents();
+  sh.getRange(1, 1, data.length, HEAD.length).setValues(data.map(function (r) { return r.slice(0, HEAD.length); }));
+  sh.getRange(1, 1, 1, HEAD.length).setFontWeight('bold');
+  return used;
+}
+
 function subjectsInName_(name, subjectKeys) {
   const compact = String(name).toUpperCase().replace(/[^A-Z0-9]/g, '');
   const words = String(name).toUpperCase().split(/[^A-Z0-9]+/);
+  const lower = String(name).toLowerCase().replace(/[^a-z]+/g, ' ');
   return Object.keys(subjectKeys).filter(function (k) {
     if (words.indexOf(k) !== -1) return true;
+    if ((COURSE_NAME_HINTS[k] || []).some(function (h) { return lower.indexOf(h) !== -1; })) return true;
     if (k.length >= 4 && compact.indexOf(k) !== -1) return true;
     // e.g. "MM-II", "QM 2"
     return compact === k || compact === k.replace(/II$/, '2');

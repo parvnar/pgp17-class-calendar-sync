@@ -59,6 +59,7 @@ in Drive, right-click the **Term 2** folder → **Share** → General access →
 | You want to… | Do this |
 |---|---|
 | Add a missing case/reading file | Put it in the Term 2 folder. Within ~3 hours it's matched automatically (or run `relinkMaterialsNow`). |
+| Set a course outline or subject folder | Paste the link into the **Courses** tab and clear its *source* cell. Rows marked `auto` are filled from the Drive scan: outlines are files named like *outline*, *syllabus* or *session plan* in or about that subject. |
 | Fix a wrong link | Paste the right link in **Materials → Link** and clear **Link Source**. Manual links are never overwritten. |
 | Re-match a row | Clear both **Link** and **Link Source**. |
 | Change a topic or case | Edit the **Sessions** tab. Events update on the next hourly run. |

@@ -69,6 +69,7 @@ Open any class to see:
 - the **case to prepare**, linked to its PDF in the course Drive folder
 - the **reading** for the session, also linked
 - the **faculty**, the **room** and the session number
+- the **course outline** and the subject's **Drive folder**, with every case, reading and slide deck
 
 Classes keep the timetable's short codes, like `MEB 5 (DB)`, so phone widgets stay readable, and each course has its own colour.
 
