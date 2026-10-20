@@ -55,6 +55,12 @@ in Drive, right-click the **Term 2** folder → **Share** → General access →
 ## Switching from v1
 `setupV2` removes the upcoming v1 events from the maintainer's own main calendar (both v1 tags). To run that clean-up again later, run `removeOldV1Events`. Batchmates who ran v1 themselves should follow [the main README](../README.md#already-set-up-the-old-version) ([`stop-v1.gs`](stop-v1.gs)).
 
+## Drive links
+For speed, the script keeps Drive links in `DRIVE_LINKS` near the top of `Code.gs`, with one entry each for folders, outlines, cases and readings. Add an entry when a new file is uploaded, or paste the link into the **Materials** tab (a typed link always wins). `relinkMaterialsNow` re-scans the folder into the sheet if you'd rather not edit code.
+
+## Classes missing from Gmail's side panel
+Gmail shows only calendars ticked in Google Calendar on the web. `CONFIG.mySections` lists the sections to tick for you. Run `showMySectionInGmail` once if they're missing.
+
 ## Day-to-day
 | You want to… | Do this |
 |---|---|

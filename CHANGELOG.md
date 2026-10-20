@@ -1,5 +1,10 @@
 # Changelog
 
+## v2.2: faster sync, Gmail fix (October 2026)
+- Drive links are kept in the script (`DRIVE_LINKS`), so the hourly sync no longer scans Drive. Set `scanDriveAutomatically: true` to go back to scanning.
+- Excel sheets, slide decks and alternate versions show as extra links next to a case, and session cheat sheets appear under "Class sheets".
+- Your own section's calendar is ticked in Google Calendar on the web, so classes show in Gmail's side panel. Run `showMySectionInGmail` to redo it.
+
 ## v2.1: course links (October 2026)
 - Every class now links to its **course outline** and the subject's **Drive folder**.
 - New **Courses** tab in the session-details sheet. Folder and outline links are found in the Term 2 Drive folder automatically, by course code or full course name, and links you paste by hand are kept.

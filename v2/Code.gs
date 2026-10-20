@@ -31,8 +31,14 @@ const CONFIG = {
   // Share each section calendar (read-only, full details) with everyone in your institute domain.
   shareWithDomain: true,
 
-  // How often (hours) to re-scan the Drive folder for material links.
+  // Links come from DRIVE_LINKS below. Set to true to also re-scan the Drive
+  // folder every few hours (slower); run relinkMaterialsNow() for a one-off scan.
+  scanDriveAutomatically: false,
   relinkEveryHours: 3,
+
+  // Sections whose calendar should be ticked (visible) in YOUR Google Calendar on the web,
+  // which is also what Gmail's side panel shows. Other sections stay as you set them.
+  mySections: ['E'],
 
   // Leave room under Apps Script's 6-minute limit; unfinished work continues 1 minute later.
   maxRunMillis: 4.5 * 60 * 1000,
@@ -43,6 +49,26 @@ const CONFIG = {
 };
 
 const CREATOR_CREDIT = '\u00A9 Parv Nar';
+
+/**
+ * Drive links, collected from the Term 2 folder (keys: subject code | material code).
+ * The script uses these directly, so it does not need to scan Drive.
+ * A link typed into the Materials or Courses tab (source not "auto") still wins.
+ * Values are Drive file IDs: [label, id] – the first entry is the main file.
+ */
+const DRIVE_LINKS = {
+  // Fill these with Drive IDs (the part after /folders/ or /file/d/ in a link). Example:
+  //   folders:   { MEB: '1AbC…' },
+  //   outlines:  { MEB: '1DeF…' },
+  //   materials: { 'MEB|C2': [['PDF', '1GhI…'], ['Excel', '1JkL…']] },
+  // Left empty here so private file IDs aren't published; the script then falls back
+  // to links in the Materials and Courses tabs (run relinkMaterialsNow to fill them).
+  folders: {},
+  outlines: {},
+  materials: {},
+  sessionExtras: {},
+  uncoded: []
+};
 
 // Timetable course codes that are spelt differently elsewhere.
 const COURSE_ALIASES = { IKS: 'IK', MCOM: 'MCOMM', QM2: 'QMII', MM2: 'MMII' };
@@ -397,17 +423,25 @@ function loadDetails_() {
     const course = normCourse_(r['subject']);
     const code = str_(r['code']).toUpperCase();
     if (!course || !code) return;
-    materials[course + '|' + code] = { title: str_(r['title']), link: str_(r['link']) };
+    const src = str_(r['link source']).toLowerCase();
+    materials[course + '|' + code] = {
+      title: str_(r['title']),
+      manualLink: src === 'auto' ? '' : str_(r['link']),
+      autoLink: src === 'auto' ? str_(r['link']) : ''
+    };
   });
   let folders = {};
   try { folders = JSON.parse(PROP.getProperty('subjectFolders') || '{}'); } catch (e) { folders = {}; }
   const outlines = {};
+  Object.keys(DRIVE_LINKS.folders).forEach(function (k) { folders[k] = folderUrl_(DRIVE_LINKS.folders[k]); });
+  Object.keys(DRIVE_LINKS.outlines).forEach(function (k) { outlines[k] = fileUrl_(DRIVE_LINKS.outlines[k]); });
   if (ss.getSheetByName('Courses')) {
     readTable_(ss, 'Courses').forEach(function (r) {
       const course = normCourse_(r['subject']);
       if (!course) return;
-      if (str_(r['course folder'])) folders[course] = str_(r['course folder']);
-      if (str_(r['course outline'])) outlines[course] = str_(r['course outline']);
+      const manual = function (src) { return str_(r[src]).toLowerCase() !== 'auto'; };
+      if (str_(r['course folder']) && (manual('folder source') || !DRIVE_LINKS.folders[course])) folders[course] = str_(r['course folder']);
+      if (str_(r['course outline']) && (manual('outline source') || !DRIVE_LINKS.outlines[course])) outlines[course] = str_(r['course outline']);
     });
   }
   return { sessions: sessions, materials: materials, folders: folders, outlines: outlines };
@@ -435,6 +469,10 @@ function buildEvent_(s, plan, details) {
     const readHtml = itemsHtml_(s.courseKey, d.readings, details.materials);
     if (readHtml) html.push('', '<b>Reading</b>', readHtml);
     if (d.notes) html.push('', '<b>Notes</b>', esc_(d.notes));
+    const extra = DRIVE_LINKS.sessionExtras[s.courseKey + '|' + s.session];
+    if (extra) html.push('', '<b>Class sheets</b>', extra.map(function (f) {
+      return '• <a href="' + fileUrl_(f[1]) + '">' + esc_(f[0]) + '</a>';
+    }).join('<br>'));
   } else {
     html.push('', '<i>Prep details for this session have not been added yet.</i>');
   }
@@ -472,18 +510,39 @@ function itemsHtml_(courseKey, text, materials) {
     item = item.trim();
     if (!item) return null;
     const m = item.match(/^\[?\s*((?:C|R|TN|SIM|X)\d+)\b\s*:?\s*(.*)$/i);
-    if (!m) return '• ' + esc_(item);
+    if (!m) {
+      const hit = DRIVE_LINKS.uncoded.filter(function (u) {
+        return normCourse_(u.subject) === courseKey && item.toLowerCase().indexOf(u.phrase) !== -1;
+      })[0];
+      return '• ' + (hit ? linkList_(item, hit.files) : esc_(item));
+    }
     const code = m[1].toUpperCase();
-    const mat = materials[courseKey + '|' + code];
+    const mat = materials[courseKey + '|' + code] || { title: '', manualLink: '', autoLink: '' };
     let label = item;
     // "R1 (continues)" → "R1: <title> (continues)"
     if (mat && mat.title && (!m[2] || m[2].charAt(0) === '(')) {
       label = code + ': ' + mat.title + (m[2] ? ' ' + m[2] : '');
     }
-    if (mat && mat.link) return '• <a href="' + esc_(mat.link) + '">' + esc_(label) + '</a>';
+    if (mat.manualLink) return '• <a href="' + esc_(mat.manualLink) + '">' + esc_(label) + '</a>';
+    const files = DRIVE_LINKS.materials[courseKey + '|' + code];
+    if (files) return '• ' + linkList_(label, files);
+    if (mat.autoLink) return '• <a href="' + esc_(mat.autoLink) + '">' + esc_(label) + '</a>';
     return '• ' + esc_(label) + ' <i>(file not on Drive yet)</i>';
   }).filter(Boolean).join('<br>');
 }
+
+/** "C2: Prestige Telephone" + [[PDF, id], [Excel, id]] → main link plus small extra links. */
+function linkList_(label, files) {
+  let html = '<a href="' + fileUrl_(files[0][1]) + '">' + esc_(label) + '</a>';
+  const more = files.slice(1).map(function (f) {
+    return '<a href="' + fileUrl_(f[1]) + '">' + esc_(f[0]) + '</a>';
+  });
+  if (more.length) html += ' (' + more.join(', ') + ')';
+  return html;
+}
+
+function fileUrl_(id) { return 'https://drive.google.com/file/d/' + id + '/view'; }
+function folderUrl_(id) { return 'https://drive.google.com/drive/folders/' + id; }
 
 function shortTopic_(topic) {
   if (!topic) return '';
@@ -530,9 +589,32 @@ function ensureCalendars_(domain) {
         console.warn('Could not share Section ' + section + ' calendar with ' + domain + ': ' + e.message);
       }
     }
+    if (CONFIG.mySections.indexOf(section) !== -1 && PROP.getProperty('visible_' + section) !== id) {
+      showCalendarOnWeb_(id, section);
+    }
     out[section] = id;
   });
   return out;
+}
+
+/** Tick the calendar in your web Google Calendar list (this is what Gmail's side panel shows). */
+function showCalendarOnWeb_(id, section) {
+  try {
+    Calendar.CalendarList.patch({ selected: true, hidden: false }, id);
+    PROP.setProperty('visible_' + section, id);
+    console.log('Section ' + section + ' calendar is now ticked in your Google Calendar (web and Gmail).');
+  } catch (e) {
+    console.warn('Could not tick the Section ' + section + ' calendar: ' + e.message);
+  }
+}
+
+/** Run this if your section's classes don't show in Gmail's side panel or on calendar.google.com. */
+function showMySectionInGmail() {
+  ensureCalendars_(userDomain_());
+  CONFIG.mySections.forEach(function (section) {
+    const id = PROP.getProperty('calendar_' + section);
+    if (id) showCalendarOnWeb_(id, section);
+  });
 }
 
 function existingCalendars_() {
@@ -593,6 +675,7 @@ const STOP_WORDS = ('the a an and of for to in on at by with from is are its it 
 
 function linkMaterials_(force) {
   const last = Number(PROP.getProperty('lastRelink') || 0);
+  if (!force && !CONFIG.scanDriveAutomatically) return;
   if (!force && Date.now() - last < CONFIG.relinkEveryHours * 3600 * 1000) return;
   if (!CONFIG.materialsFolderId) return;
 
